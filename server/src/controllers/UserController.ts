@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
-import UserModel from "../models/UserModel";
+import { User } from "../models/UserModel";
 
 
 dotenv.config();
@@ -15,7 +15,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
 class UserController {
   async getAllUsers(req: Request, res: Response) {
     try {
-      const users = await UserModel.find();
+      const users = await User.find();
       return res.json(users);
     } catch (error) {
       return res.status(500).json({ error: 'Internal Server Error.' });
@@ -24,7 +24,7 @@ class UserController {
 
   async getUserById(req: Request, res: Response) {
     try {
-      const user = await UserModel.findById(req.params.id);
+      const user = await User.findById(req.params.id);
 
       if (!user) {
         return res.status(404).json({ error: 'User not found.' });
@@ -41,7 +41,7 @@ class UserController {
     try {
       const { name, email, password, role } = req.body;
 
-      const foundUser = await UserModel.findOne({ email })
+      const foundUser = await User.findOne({ email })
 
       const errors = validationResult(req);
 
@@ -57,7 +57,7 @@ class UserController {
         avatar = fileService.save(req.files?.avatar);
       }
 
-      const newUser = new UserModel({
+      const newUser = new User({
         name,
         email,
         password: bcrypt.hashSync(password.trim(), 10),
@@ -93,7 +93,7 @@ class UserController {
       }
       const { email, password } = req.body;
 
-      const foundUser = await UserModel.findOne({ email });
+      const foundUser = await User.findOne({ email });
 
       if (!foundUser) {
         return res.status(404).json({ error: 'User not found.' });
@@ -126,7 +126,7 @@ class UserController {
       if (!errors.isEmpty()) { return res.status(422).json({ errors: errors.array() }); }
 
       const { name, email, password, role } = req.body;
-      const user = await UserModel.findById(req.params.id)
+      const user = await User.findById(req.params.id)
 
       if (!user) { return res.status(404).json({ error: 'User not found.' }); }
 
@@ -156,7 +156,7 @@ class UserController {
   async deleteUser(req: Request, res: Response) {
     try {
       const userId = req.params.id;
-      const deletedUser: any = await UserModel.findByIdAndDelete(userId);
+      const deletedUser: any = await User.findByIdAndDelete(userId);
 
       if (!deletedUser) {
         return res.status(404).json({ error: 'User not found.' });
@@ -178,7 +178,7 @@ class UserController {
 
       const regex = new RegExp(query, 'i')
 
-      const users = await UserModel
+      const users = await User
         .find({
           $or: [
             { name: regex },

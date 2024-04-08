@@ -14,7 +14,7 @@ export interface IMovie {
 }
 
 export interface IUser {
-  id: number;
+  _id: number;
   name: string;
   email: string;
   password: string;
@@ -34,4 +34,15 @@ export interface UserDocument extends Document {
   password: string;
   avatar?: string;
   role: "user" | "admin";
+}
+
+export interface RegisterResponse {
+  success: boolean;
+  message: string;
+}
+
+export interface LoginResponse {
+  success: boolean;
+  token?: string;
+  message?: string;
 }

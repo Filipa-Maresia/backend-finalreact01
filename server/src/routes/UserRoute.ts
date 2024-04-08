@@ -1,14 +1,16 @@
 import { Router } from "express";
 import { check } from 'express-validator';
 import UserController from "../controllers/UserController";
+import { checkRoles } from '../middlewares/AuthMiddleware';
 
 const router = Router();
 
-// Get all users
-router.get('/users', UserController.getAllUsers);
+// Define the roles required for specific routes
+const adminOnly = checkRoles(['ADMIN']);
+const userAndAdmin = checkRoles(['USER', 'ADMIN']);
 
-// Get a user by ID
-router.get('/users/:id', UserController.getUserById);
+router.get('/users', adminOnly, UserController.getAllUsers);
+router.get('/users/:id', userAndAdmin, UserController.getUserById);
 
 // Create a new user
 router.post(
@@ -36,6 +38,6 @@ router.post(
 );
 
 // Delete a user by ID
-router.delete('/users/:id', UserController.deleteUser);
+router.delete('/users/:id', adminOnly, UserController.deleteUser);
 
 export default router;
