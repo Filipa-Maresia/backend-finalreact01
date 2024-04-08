@@ -1,0 +1,57 @@
+/* Navbar.css */
+
+/* Reset default margin, padding, and box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Navbar container */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 45px;
+    /* Add padding to top and bottom */
+    background-color: #301934;
+    color: #fff;
+    border-bottom: 1px solid purple;
+    /* Add border at the bottom */
+}
+
+/* Left side of the navbar */
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+/* Navbar brand/logo */
+.navbar-brand {
+    font-size: 1.8rem;
+    margin-right: 20px;
+    text-decoration: none;
+    color: white;
+}
+
+/* Right side of the navbar */
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+/* Navbar links */
+.navbar-link {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    transition: color 0.3s;
+    /* Add transition for smoother color change */
+}
+
+/* Navbar link hover effect */
+.navbar-link:hover {
+    text-decoration: underline;
+    color: #e0e0e0;
+    /* Change text color on hover */
+}
